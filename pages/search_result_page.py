@@ -5,6 +5,8 @@ from selenium.webdriver.support import expected_conditions as EC
 import re
 from pages.base_page import BasePage
 
+global tenth_production_id
+
 
 
 
@@ -90,15 +92,14 @@ class SearchResultsPage(BasePage):
 
     def find_and_click_10th_highest_price(self):
         try:
-            # 1. Fiyat içeren tüm TextView'ları bul
+
             price_elements = self.driver.find_elements(
                 AppiumBy.XPATH,
                 "//android.widget.TextView[@resource-id='com.akakce.akakce:id/price' "
             )
 
-            # 2. İlk 13 fiyatı al
-            price_elements = price_elements[:13]
 
+            price_elements = price_elements[:13]
             product_prices = []
 
             for price_element in price_elements:
@@ -111,17 +112,23 @@ class SearchResultsPage(BasePage):
                 except Exception:
                     continue
 
-            # 3. Fiyatlara göre azalan sıralama yap
+
             sorted_products = sorted(product_prices, key=lambda x: x[1], reverse=True)
 
-            # 4. 10. ürünü bul ve tıkla
+
             if len(sorted_products) >= 10:
                 tenth_price_element = sorted_products[9][0]
-                print(f"10. yüksek fiyatlı ürünün fiyatı: {sorted_products[9][1]}")
+                print(f"10. Price of high cost product: {sorted_products[9][1]}")
+                global tenth_production_id
+                tenth_production_id=tenth_price_element
                 tenth_price_element.click()
             else:
-                print("İlk 13 fiyatlı üründen 10'dan az fiyat bulundu.")
+                print("Less than 10 of the top 13 priced items were found.")
 
         except Exception as e:
-            print("Hata oluştu:", str(e))
+            print("ERROR:", str(e))
+
+    def tenth_prodcution(self):
+
+        return tenth_production_id
 

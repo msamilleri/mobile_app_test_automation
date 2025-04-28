@@ -53,6 +53,7 @@ def step_impl(context):
     product_detail_page = ProductDetailPage()
     product_detail_page.click_go_to_product_button()
 
-@then('Ürün detay ekranında "{button_text}" butonunun görüntülendiğini doğrular')
+@then('Ürün detay ekranında "Satıcıya Git" butonunun görüntülendiğini doğrular')
 def step_impl(context, button_text):
     product_detail_page = ProductDetailPage()
+    product_detail_page.go_to_product_button()
